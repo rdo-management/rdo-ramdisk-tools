@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_cb728e7b",
+        "filename": "setup.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-13T15:27:49Z",
+      "side": 1,
+      "message": "nit: this sounds odd. maybe \"Tools for use on RDO ramdisks\". not worth a respin just for this though.",
+      "revId": "48d75a9bfbe4a28b267e145427f3929c9c31a092",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
