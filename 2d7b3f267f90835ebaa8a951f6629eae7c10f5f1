@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_cb5e0e45",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-13T18:51:07Z",
+      "side": 1,
+      "message": "Ah, good call. Fred did not want to add ironicclient as a dependency for hardware. We no longer have that restriction.",
+      "parentUuid": "1a106d94_8b5b7686",
+      "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_cb544e56",
         "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_eb530a37",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-13T18:51:07Z",
+      "side": 1,
+      "message": "I think the AmbiguousAuthSystem message was also a bit cryptic. I will check though, and at least try to improve this message.",
+      "parentUuid": "1a106d94_cb544e56",
+      "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_2b640248",
         "filename": "test-requirements.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-04-13T17:51:15Z",
       "side": 1,
       "message": "it\u0027s not only for tests, is it? if so, it should be in requirements",
+      "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_4b321e11",
+        "filename": "test-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-13T18:51:07Z",
+      "side": 1,
+      "message": "Ya, I will put this in requirements.",
+      "parentUuid": "1a106d94_2b640248",
       "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
