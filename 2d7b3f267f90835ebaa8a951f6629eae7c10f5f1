@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_8b5b7686",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-13T17:51:15Z",
+      "side": 1,
+      "message": "This part is not needed IMO, we\u0027ll make ironicclient a dependency",
+      "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_cb544e56",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-13T17:51:15Z",
+      "side": 1,
+      "message": "Would be nice to have a bit more generic message. Even I don\u0027t know what keystonerc is :) maybe just report str(exception)?",
+      "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_2b640248",
+        "filename": "test-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-13T17:51:15Z",
+      "side": 1,
+      "message": "it\u0027s not only for tests, is it? if so, it should be in requirements",
+      "revId": "2d7b3f267f90835ebaa8a951f6629eae7c10f5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
