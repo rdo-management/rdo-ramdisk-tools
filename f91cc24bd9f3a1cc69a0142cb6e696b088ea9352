@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a106d94_5285aece",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-14T08:18:45Z",
+      "side": 1,
+      "message": "btw let\u0027s use a shorthand in this file:\n\n sys.exit(err_msg)",
+      "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_8f5f0141",
         "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
         "patchSetId": 2
@@ -13,6 +30,40 @@
       "writtenOn": "2015-04-14T00:58:01Z",
       "side": 1,
       "message": "The error message returned by AmbiguousAuthSystem is \"Must provide Keystone credentials or user-defined endpoint and token\". However, currently this script does not accept endpoint-token authentication. I tried to make the error message more generic though.",
+      "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_f27dbae8",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-14T08:18:45Z",
+      "side": 1,
+      "message": "exposing password in error message is not a way to go, let\u0027s e.g. hash it or just replace with \"\u003chidden\u003e\"",
+      "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_926e062e",
+        "filename": "rdo_ramdisk_tools/test/test_ironic_cardiff.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-14T08:18:45Z",
+      "side": 1,
+      "message": "order is usually reverse:\n\n self.assertEqual(expected, facts)",
       "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
