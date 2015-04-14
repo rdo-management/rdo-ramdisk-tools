@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_58594d35",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-14T14:48:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_5285aece",
+      "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_8f5f0141",
         "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_385c5125",
+        "filename": "rdo_ramdisk_tools/ironic_cardiff.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-14T14:48:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_f27dbae8",
+      "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_926e062e",
         "filename": "rdo_ramdisk_tools/test/test_ironic_cardiff.py",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2015-04-14T08:18:45Z",
       "side": 1,
       "message": "order is usually reverse:\n\n self.assertEqual(expected, facts)",
+      "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_d84c1d73",
+        "filename": "rdo_ramdisk_tools/test/test_ironic_cardiff.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-14T14:48:51Z",
+      "side": 1,
+      "message": "cool, thanks.",
+      "parentUuid": "1a106d94_926e062e",
       "revId": "f91cc24bd9f3a1cc69a0142cb6e696b088ea9352",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
