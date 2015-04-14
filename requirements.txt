@@ -1,2 +1,4 @@
 hardware
+netifaces
 python-ironicclient>=0.5.0
+requests>=2.2.0,!=2.4.0
