@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_d644d21c",
+        "filename": "rdo_ramdisk_tools/test/test_discover_hardware.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-22T20:27:38Z",
+      "side": 1,
+      "message": "Do we also want to check that a failure gets added to our AccumulatedFailure object here?",
+      "revId": "736413d1349199fd6e149e4c7ef530cacc31ccfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
