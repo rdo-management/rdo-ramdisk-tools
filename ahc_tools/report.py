@@ -12,53 +12,13 @@
 # limitations under the License.
 
 import argparse
-import os
 import sys
 
 from hardware.cardiff import cardiff
 from hardware.cardiff import compare_sets
-from hardware.cardiff import utils
-from ironicclient import client
-from ironicclient.exc import AmbiguousAuthSystem
+from hardware.cardiff import utils as cardiff_utils
 
-
-def get_facts(client):
-    nodes = client.node.list(detail=True)
-    # cardiff expects data in the form of a list of nodes
-    # where each node is represented by a list of tuples
-    # with each tuple representing a fact about the node
-    try:
-        facts = [[tuple(fact) for fact in node.extra['edeploy_facts']] for
-                 node in nodes]
-    except KeyError:
-        err_msg = ("You must run introspection on the nodes before "
-                   "running this tool.\n")
-        sys.exit(err_msg)
-    return facts
-
-
-def get_ironic_client(args):
-    # TODO(trown): refactor to include error handling, and inputing
-    #              credentials on the command line. Might also want
-    #              getpass for password input.
-    kwargs = {'os_password': os.environ.get('OS_PASSWORD'),
-              'os_username': os.environ.get('OS_USERNAME'),
-              'os_tenant_name': os.environ.get('OS_TENANT_NAME'),
-              'os_auth_url': os.environ.get('OS_AUTH_URL')}
-    try:
-        ironic = client.get_client(1, **kwargs)
-    except AmbiguousAuthSystem:
-        if kwargs['os_password']:
-            kwargs['os_password'] = "<hidden>"
-        err_msg = ("Some credentials are missing. The needed environment "
-                   "variables are set as follows: "
-                   "OS_PASSWORD=%(os_password)s, "
-                   "OS_USERNAME=%(os_username)s, "
-                   "OS_TENANT_NAME=%(os_tenant_name)s, "
-                   "OS_AUTH_URL=%(os_auth_url)s.\n" % kwargs)
-        sys.exit(err_msg)
-
-    return ironic
+from ahc_tools import utils
 
 
 def print_report(args, facts):
@@ -80,7 +40,7 @@ def print_report(args, facts):
     unique_id = args.unique_id
     # Extract the host list from the data to get the initial list of hosts.
     systems_groups = []
-    systems_groups.append(utils.get_hosts_list(facts, unique_id))
+    systems_groups.append(cardiff_utils.get_hosts_list(facts, unique_id))
     # Print the group information
     if args.groups or args.full:
         compare_sets.print_systems_groups(systems_groups)
@@ -118,10 +78,8 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    ironic = get_ironic_client(args)
-    facts = get_facts(ironic)
+    ironic_client = utils.get_ironic_client()
+    nodes = ironic_client.node.list(detail=True)
+    facts = [utils.get_facts(node) for node in nodes]
 
     print_report(args, facts)
-
-if __name__ == '__main__':
-    main()
