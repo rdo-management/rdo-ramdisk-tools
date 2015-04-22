@@ -10,7 +10,6 @@
 # implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import os
 import sys
 import unittest
 
@@ -19,69 +18,7 @@ from ahc_tools import report
 from hardware.cardiff import cardiff
 from hardware.cardiff import compare_sets
 from hardware.cardiff import utils
-from ironicclient import client as ic_client
-from ironicclient.exc import AmbiguousAuthSystem
 import mock
-
-
-@mock.patch.object(report, 'get_ironic_client', autospec=True)
-class TestGetFacts(unittest.TestCase):
-    def test_facts(self, client_mock):
-        node1 = mock.Mock(extra={'edeploy_facts':
-                                 [[u'cpu', u'logical_0',
-                                   u'bogomips', u'4199.99'],
-                                  [u'cpu', u'logical_0',
-                                   u'cache_size', u'4096KB']
-                                  ]})
-        node2 = mock.Mock(extra={'edeploy_facts':
-                                 [[u'cpu', u'logical_0',
-                                   u'bogomips', u'4098.99'],
-                                  [u'cpu', u'logical_0',
-                                   u'cache_size', u'4096KB']
-                                  ]})
-        client = client_mock.return_value
-        client.node.list.return_value = [node1, node2]
-        expected = [[(u'cpu', u'logical_0', u'bogomips', u'4199.99'),
-                     (u'cpu', u'logical_0', u'cache_size', u'4096KB')],
-                    [(u'cpu', u'logical_0', u'bogomips', u'4098.99'),
-                     (u'cpu', u'logical_0', u'cache_size', u'4096KB')]]
-        facts = report.get_facts(client)
-        self.assertEqual(expected, facts)
-
-    def test_no_facts(self, client_mock):
-        node1 = mock.Mock(extra={})
-        node2 = mock.Mock(extra={})
-        client = client_mock.return_value
-        client.node.list.return_value = [node1, node2]
-        err_msg = ("You must run introspection on the nodes before "
-                   "running this tool.\n")
-        self.assertRaisesRegexp(SystemExit, err_msg,
-                                report.get_facts, client)
-
-
-@mock.patch.object(ic_client, 'get_client', autospec=True,
-                   side_effect=AmbiguousAuthSystem)
-class TestGetIronicClient(unittest.TestCase):
-    def test_no_credentials(self, ic_mock):
-        os.environ.clear()
-        err_msg = ("Some credentials are missing. The needed environment "
-                   "variables are set as follows: OS_PASSWORD=None, "
-                   "OS_USERNAME=None, OS_TENANT_NAME=None, "
-                   "OS_AUTH_URL=None.\n")
-        self.assertRaisesRegexp(SystemExit, err_msg,
-                                report.get_ironic_client, {})
-        self.assertTrue(ic_mock.called)
-
-    def test_password_hidden(self, ic_mock):
-        os.environ.clear()
-        os.environ['OS_PASSWORD'] = "password"
-        err_msg = ("Some credentials are missing. The needed environment "
-                   "variables are set as follows: OS_PASSWORD=<hidden>, "
-                   "OS_USERNAME=None, OS_TENANT_NAME=None, "
-                   "OS_AUTH_URL=None.\n")
-        self.assertRaisesRegexp(SystemExit, err_msg,
-                                report.get_ironic_client, {})
-        self.assertTrue(ic_mock.called)
 
 
 @mock.patch.object(utils, 'get_hosts_list', autospec=True)
@@ -136,8 +73,15 @@ class TestPrintReport(unittest.TestCase):
         cp_mock.assert_called_once_with([], 'uuid', [[]], self.detail)
 
 
-@mock.patch('sys.stdout')
 class TestMain(unittest.TestCase):
+    @mock.patch('sys.stdout')
     def test_no_args(self, out_mock):
-        sys.argv = ["ironic-cardiff"]
+        sys.argv = ['ahc-report']
         self.assertRaisesRegexp(SystemExit, "1", report.main)
+
+    @mock.patch.object(report.utils, 'get_ironic_client', autospec=True)
+    @mock.patch.object(report.utils, 'get_facts', autospec=True)
+    @mock.patch.object(report, 'print_report', autospec=True)
+    def test_no_exceptions(self, print_mock, facts_mock, ic_mock):
+        with mock.patch('sys.argv', ['ahc-report', '-f']):
+            report.main()
