@@ -40,11 +40,14 @@ def parse_args(args):
                         help='In case of failure, fork off, continue running '
                         'and serve logs via port set by --port')
     parser.add_argument('--bootif', help='PXE boot interface')
+    parser.add_argument('--benchmark', action='store_true',
+                        help='Enables benchmarking')
     parser.add_argument('callback_url', help='Full callback URL')
     return parser.parse_args(args)
 
 
 def try_call(*cmd, **kwargs):
+    strip = kwargs.pop('strip', True)
     kwargs['stdout'] = subprocess.PIPE
     kwargs['stderr'] = subprocess.PIPE
     p = subprocess.Popen(cmd, **kwargs)
@@ -52,6 +55,8 @@ def try_call(*cmd, **kwargs):
     if p.returncode:
         LOG.warn('command %s returned failure status %d:\n%s', cmd,
                  p.returncode, err.strip())
+    else:
+        return out.strip() if strip else out
 
 
 def try_shell(sh, **kwargs):
@@ -176,7 +181,11 @@ def discover_scheduling_properties(data, failures):
 
 
 def discover_additional_properties(args, data, failures):
-    pass  # TODO(dtantsur): implement
+    hw_args = ('--benchmark', 'cpu', 'disk', 'mem') if args.benchmark else ()
+    hw_json = try_call('hardware-detect', **hw_args)
+    if not hw_json:
+        failures.add('unable to get extended hardware properties')
+    data['data'] = hw_json
 
 
 def discover_hardware(args, data, failures):
