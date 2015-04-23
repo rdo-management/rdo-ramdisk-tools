@@ -88,7 +88,8 @@ class TestFailures(unittest.TestCase):
 
 
 def get_fake_args():
-    return mock.Mock(callback_url='url', daemonize_on_failure=True)
+    return mock.Mock(callback_url='url', daemonize_on_failure=True,
+                     benchmark=None)
 
 
 FAKE_ARGS = get_fake_args()
@@ -191,6 +192,19 @@ class BaseDiscoverTest(unittest.TestCase):
         super(BaseDiscoverTest, self).setUp()
         self.failures = discover_hardware.AccumulatedFailure()
         self.data = {}
+
+
+@mock.patch.object(discover_hardware, 'try_shell', autospec=True)
+class TestDiscoverBasicProperties(BaseDiscoverTest):
+    def test(self, mock_shell):
+        mock_shell.return_value = '1.2.3.4'
+
+        discover_hardware.discover_basic_properties(
+            self.data, mock.Mock(bootif='boot:if'))
+
+        self.assertEqual({'ipmi_address': '1.2.3.4',
+                          'boot_interface': 'boot:if'},
+                         self.data)
 
 
 @mock.patch.object(netifaces, 'ifaddresses', autospec=True)
@@ -297,6 +311,57 @@ class TestDiscoverSchedulingProperties(BaseDiscoverTest):
         self.assertIn('local_gb is less than 1 GiB', self.failures.get_error())
         self.assertEqual({'cpus': 2, 'cpu_arch': 'x86_64', 'local_gb': None,
                           'memory_mb': 4096}, self.data)
+
+
+@mock.patch.object(discover_hardware, 'try_call')
+class TestDiscoverAdditionalProperties(BaseDiscoverTest):
+    def test_ok(self, mock_call):
+        mock_call.return_value = '["prop1", "prop2"]'
+
+        discover_hardware.discover_additional_properties(
+            FAKE_ARGS, self.data, self.failures)
+
+        self.assertFalse(self.failures)
+        mock_call.assert_called_once_with('hardware-detect')
+        self.assertEqual(['prop1', 'prop2'], self.data['data'])
+
+    def test_failure(self, mock_call):
+        mock_call.return_value = None
+
+        discover_hardware.discover_additional_properties(
+            FAKE_ARGS, self.data, self.failures)
+
+        self.assertIn('unable to get extended hardware properties',
+                      self.failures.get_error())
+        self.assertNotIn('data', self.data)
+
+    def test_not_json(self, mock_call):
+        mock_call.return_value = 'foo?'
+
+        discover_hardware.discover_additional_properties(
+            FAKE_ARGS, self.data, self.failures)
+
+        self.assertIn('unable to get extended hardware properties',
+                      self.failures.get_error())
+        self.assertNotIn('data', self.data)
+
+
+@mock.patch.object(discover_hardware, 'try_shell')
+class TestDiscoverBlockDevices(BaseDiscoverTest):
+    def test_ok(self, mock_shell):
+        mock_shell.return_value = 'QM00005\nQM00006'
+
+        discover_hardware.discover_block_devices(self.data)
+
+        self.assertEqual({'serials': ['QM00005', 'QM00006']},
+                         self.data['block_devices'])
+
+    def test_failure(self, mock_shell):
+        mock_shell.return_value = None
+
+        discover_hardware.discover_block_devices(self.data)
+
+        self.assertNotIn('block_devices', self.data)
 
 
 @mock.patch.object(requests, 'post', autospec=True)

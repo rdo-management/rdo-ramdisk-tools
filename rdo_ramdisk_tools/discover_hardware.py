@@ -40,11 +40,14 @@ def parse_args(args):
                         help='In case of failure, fork off, continue running '
                         'and serve logs via port set by --port')
     parser.add_argument('--bootif', help='PXE boot interface')
+    parser.add_argument('--benchmark', action='store_true',
+                        help='Enables benchmarking')
     parser.add_argument('callback_url', help='Full callback URL')
     return parser.parse_args(args)
 
 
 def try_call(*cmd, **kwargs):
+    strip = kwargs.pop('strip', True)
     kwargs['stdout'] = subprocess.PIPE
     kwargs['stderr'] = subprocess.PIPE
     p = subprocess.Popen(cmd, **kwargs)
@@ -52,6 +55,8 @@ def try_call(*cmd, **kwargs):
     if p.returncode:
         LOG.warn('command %s returned failure status %d:\n%s', cmd,
                  p.returncode, err.strip())
+    else:
+        return out.strip() if strip else out
 
 
 def try_shell(sh, **kwargs):
@@ -101,6 +106,14 @@ class AccumulatedFailure(object):
                                  ', '.join(self._failures))
         else:
             return '<%s: success>' % self.__class__.__name__
+
+
+def discover_basic_properties(data, args):
+    # These properties might not be present, we don't count it as failure
+    data['boot_interface'] = args.bootif
+    data['ipmi_address'] = try_shell(
+        "ipmitool lan print | grep -e 'IP Address [^S]' | awk '{ print $4 }'")
+    LOG.info('BMC IP address: %s', data['ipmi_address'])
 
 
 def discover_network_interfaces(data, failures):
@@ -176,7 +189,28 @@ def discover_scheduling_properties(data, failures):
 
 
 def discover_additional_properties(args, data, failures):
-    pass  # TODO(dtantsur): implement
+    hw_args = ('--benchmark', 'cpu', 'disk', 'mem') if args.benchmark else ()
+    hw_json = try_call('hardware-detect', *hw_args)
+    if hw_json:
+        try:
+            data['data'] = json.loads(hw_json)
+        except ValueError:
+            LOG.error('JSON value returned from hardware-detect cannot be '
+                      'decoded:\n%s', hw_json)
+            failures.add('unable to get extended hardware properties')
+    else:
+        failures.add('unable to get extended hardware properties')
+
+
+def discover_block_devices(data):
+    block_devices = try_shell(
+        "lsblk -no TYPE,SERIAL | grep disk | awk '{print $2}'")
+    if not block_devices:
+        LOG.warn('unable to get block devices')
+        return
+
+    serials = [item for item in block_devices.split('\n') if item.strip()]
+    data['block_devices'] = {'serials': serials}
 
 
 def discover_hardware(args, data, failures):
@@ -184,17 +218,11 @@ def discover_hardware(args, data, failures):
     try_call('modprobe', 'ipmi_devintf')
     try_call('modprobe', 'ipmi_si')
 
-    # These properties might not be present, we don't count it as failure
-    data['boot_interface'] = args.bootif
-    data['ipmi_address'] = try_shell(
-        "ipmitool lan print | grep -e 'IP Address [^S]' | awk '{ print $4 }'")
-    LOG.info('BMC IP address: %s', data['ipmi_address'])
-
+    discover_basic_properties(data, args)
     discover_network_interfaces(data, failures)
     discover_scheduling_properties(data, failures)
     discover_additional_properties(args, data, failures)
-
-    # TODO(dtantsur): discover block devices
+    discover_block_devices(data)
 
 
 def call_discoverd(args, data, failures):
