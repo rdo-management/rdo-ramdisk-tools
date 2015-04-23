@@ -16,6 +16,24 @@
       "revId": "736413d1349199fd6e149e4c7ef530cacc31ccfa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_99da8b4a",
+        "filename": "rdo_ramdisk_tools/test/test_discover_hardware.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-04-23T07:38:04Z",
+      "side": 1,
+      "message": "I will try :)",
+      "parentUuid": "1a106d94_d644d21c",
+      "revId": "736413d1349199fd6e149e4c7ef530cacc31ccfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
