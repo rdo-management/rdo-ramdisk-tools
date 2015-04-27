@@ -14,7 +14,7 @@ import os
 import sys
 import unittest
 
-from rdo_ramdisk_tools import ironic_cardiff
+from ahc_tools import report
 
 from hardware.cardiff import cardiff
 from hardware.cardiff import compare_sets
@@ -24,7 +24,7 @@ from ironicclient.exc import AmbiguousAuthSystem
 import mock
 
 
-@mock.patch.object(ironic_cardiff, 'get_ironic_client', autospec=True)
+@mock.patch.object(report, 'get_ironic_client', autospec=True)
 class TestGetFacts(unittest.TestCase):
     def test_facts(self, client_mock):
         node1 = mock.Mock(extra={'edeploy_facts':
@@ -45,7 +45,7 @@ class TestGetFacts(unittest.TestCase):
                      (u'cpu', u'logical_0', u'cache_size', u'4096KB')],
                     [(u'cpu', u'logical_0', u'bogomips', u'4098.99'),
                      (u'cpu', u'logical_0', u'cache_size', u'4096KB')]]
-        facts = ironic_cardiff.get_facts(client)
+        facts = report.get_facts(client)
         self.assertEqual(expected, facts)
 
     def test_no_facts(self, client_mock):
@@ -56,7 +56,7 @@ class TestGetFacts(unittest.TestCase):
         err_msg = ("You must run introspection on the nodes before "
                    "running this tool.\n")
         self.assertRaisesRegexp(SystemExit, err_msg,
-                                ironic_cardiff.get_facts, client)
+                                report.get_facts, client)
 
 
 @mock.patch.object(ic_client, 'get_client', autospec=True,
@@ -69,7 +69,7 @@ class TestGetIronicClient(unittest.TestCase):
                    "OS_USERNAME=None, OS_TENANT_NAME=None, "
                    "OS_AUTH_URL=None.\n")
         self.assertRaisesRegexp(SystemExit, err_msg,
-                                ironic_cardiff.get_ironic_client, {})
+                                report.get_ironic_client, {})
         self.assertTrue(ic_mock.called)
 
     def test_password_hidden(self, ic_mock):
@@ -80,7 +80,7 @@ class TestGetIronicClient(unittest.TestCase):
                    "OS_USERNAME=None, OS_TENANT_NAME=None, "
                    "OS_AUTH_URL=None.\n")
         self.assertRaisesRegexp(SystemExit, err_msg,
-                                ironic_cardiff.get_ironic_client, {})
+                                report.get_ironic_client, {})
         self.assertTrue(ic_mock.called)
 
 
@@ -102,7 +102,7 @@ class TestPrintReport(unittest.TestCase):
     def test_groups(self, cp_mock, gs_mock, psg_mock, ghl_mock):
         self.args.groups = True
         ghl_mock.return_value = []
-        ironic_cardiff.print_report(self.args, self.facts)
+        report.print_report(self.args, self.facts)
         ghl_mock.assert_called_once_with([], 'uuid')
         psg_mock.assert_called_once_with([[]])
         self.assertFalse(cp_mock.called)
@@ -111,7 +111,7 @@ class TestPrintReport(unittest.TestCase):
     def test_categories(self, cp_mock, gs_mock, psg_mock, ghl_mock):
         self.args.categories = True
         ghl_mock.return_value = []
-        ironic_cardiff.print_report(self.args, self.facts)
+        report.print_report(self.args, self.facts)
         ghl_mock.assert_called_once_with([], 'uuid')
         gs_mock.assert_called_once_with({}, self.facts, 'uuid', [[]], 'system')
         self.assertFalse(cp_mock.called)
@@ -120,7 +120,7 @@ class TestPrintReport(unittest.TestCase):
     def test_outliers(self, cp_mock, gs_mock, psg_mock, ghl_mock):
         self.args.outliers = True
         ghl_mock.return_value = []
-        ironic_cardiff.print_report(self.args, self.facts)
+        report.print_report(self.args, self.facts)
         ghl_mock.assert_called_once_with([], 'uuid')
         cp_mock.assert_called_once_with([], 'uuid', [[]], self.detail)
         self.assertFalse(psg_mock.called)
@@ -129,7 +129,7 @@ class TestPrintReport(unittest.TestCase):
     def test_full(self, cp_mock, gs_mock, psg_mock, ghl_mock):
         self.args.full = True
         ghl_mock.return_value = []
-        ironic_cardiff.print_report(self.args, self.facts)
+        report.print_report(self.args, self.facts)
         ghl_mock.assert_called_once_with([], 'uuid')
         psg_mock.assert_called_once_with([[]])
         gs_mock.assert_called_once_with({}, self.facts, 'uuid', [[]], 'system')
@@ -140,4 +140,4 @@ class TestPrintReport(unittest.TestCase):
 class TestMain(unittest.TestCase):
     def test_no_args(self, out_mock):
         sys.argv = ["ironic-cardiff"]
-        self.assertRaisesRegexp(SystemExit, "1", ironic_cardiff.main)
+        self.assertRaisesRegexp(SystemExit, "1", report.main)
