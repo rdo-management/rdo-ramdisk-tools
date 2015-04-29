@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_1a4cadc7",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_787b2e28",
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_1892fa4b",
         "filename": "ahc_tools/match.py",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2015-04-29T06:47:54Z",
       "side": 1,
       "message": "I guess you want it configurable in the next patches?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 41
+      },
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_91b9a07b",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_1892fa4b",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_3af52957",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "That is a good question. I guess we expect all available nodes to match some profile, so this should be error.",
+      "parentUuid": "1a106d94_5898f269",
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_98a54aa4",
         "filename": "ahc_tools/match.py",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2015-04-29T06:47:54Z",
       "side": 1,
       "message": "I hate this try block for some time :) so I suggest splitting it:\n\n try:\n   sobj \u003d state.State(EDEPLOY_LOCK)\n except Exception:\n   # raise or warn and return\n\n try:\n   sobj.load(EDEPLOY_DIR)\n   prof, var \u003d sobj.find_match(facts)\n except:\n   # raise or warn and return\n finally:\n   sobj.save()\n   sobj.unlock()",
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_9ae6ddae",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_98a54aa4",
       "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_da033540",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_389d365a",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 31
+      },
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_78a20e9a",
         "filename": "ahc_tools/match.py",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2015-04-29T06:47:54Z",
       "side": 1,
       "message": "I guess it should be in try..finally.. block",
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_9d10975a",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "ya, this definitely needs exception handling in a few places.",
+      "parentUuid": "1a106d94_78a20e9a",
       "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_ba8759b4",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "ah, ya I thought this ended up in the hardware key somehow for the configdrive metadata, but that all comes from the .specs files. This is not used anywhere.",
+      "parentUuid": "1a106d94_18b95acc",
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_f8bd5eb8",
         "filename": "ahc_tools/match.py",
         "patchSetId": 1
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_1afaed42",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_f8bd5eb8",
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_58af527d",
         "filename": "ahc_tools/report.py",
         "patchSetId": 1
@@ -161,6 +317,30 @@
       "writtenOn": "2015-04-29T06:47:54Z",
       "side": 1,
       "message": "LOG.debug",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 9
+      },
+      "revId": "6468ecbb0f0e6f9fc6fa2c93d06ba48f38959eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_201b3c74",
+        "filename": "ahc_tools/report.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-04-29T21:15:25Z",
+      "side": 1,
+      "message": "whoops, this should not have been here at all actually. snuck in from troubleshooting.",
+      "parentUuid": "1a106d94_58af527d",
       "range": {
         "startLine": 83,
         "startChar": 4,
