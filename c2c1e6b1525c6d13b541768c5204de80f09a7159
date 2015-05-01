@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_9dd18e25",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-05-01T21:11:48Z",
+      "side": 1,
+      "message": "After some manual testing, I realized that the lock file is not obtained in State.__init__, but in State.load.",
+      "revId": "c2c1e6b1525c6d13b541768c5204de80f09a7159",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
