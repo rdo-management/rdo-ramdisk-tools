@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_aea6d2ab",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003793
+      },
+      "writtenOn": "2015-05-04T14:45:36Z",
+      "side": 1,
+      "message": "2 questions here:\n- shouldn\u0027t it be in try-except block as copy_state?\n- shouldn\u0027t it be restored *before* the matching happens?",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 18
+      },
+      "revId": "adcc3d9038531618aad031ab84b7e1fcc0aeb001",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
