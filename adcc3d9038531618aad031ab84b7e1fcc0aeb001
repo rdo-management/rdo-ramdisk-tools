@@ -22,6 +22,30 @@
       "revId": "adcc3d9038531618aad031ab84b7e1fcc0aeb001",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_2e2f82f8",
+        "filename": "ahc_tools/match.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-05-04T15:20:04Z",
+      "side": 1,
+      "message": "my thought was that if we were able to copy it one direction, we should be able to copy it back.\n\nthe idea here is that matching should be idempotent, but edeploy changes the state file. So we copy it before running matching, then edeploy changes the file, but we copy it back after matching. This way we can re-run matching as many times as we want without changing the result.",
+      "parentUuid": "1a106d94_aea6d2ab",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 18
+      },
+      "revId": "adcc3d9038531618aad031ab84b7e1fcc0aeb001",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
