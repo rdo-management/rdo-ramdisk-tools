@@ -16,3 +16,4 @@ Usage documentation is currently provided as part of the
 `RDO-Manager documentation`_
 
 .. _RDO-Manager documentation: https://repos.fedorapeople.org/repos/openstack-m/instack-undercloud/html/index.html
+
