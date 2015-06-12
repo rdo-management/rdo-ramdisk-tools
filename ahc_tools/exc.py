@@ -22,7 +22,7 @@ class LoadFailedError(Exception):
 
     def __init__(self, o_msg, conf_dir):
         msg = ('Unable to load the state file in %s. '
-               'Error was: %s' % (conf_dir, o_msg))
+               '\nERROR: %s' % (conf_dir, o_msg))
         super(LoadFailedError, self).__init__(msg)
 
 
@@ -35,5 +35,20 @@ class MatchFailedError(Exception):
     """
 
     def __init__(self, o_msg, uuid):
-        msg = ('Failed to match node uuid: %s. Error was: %s' % (uuid, o_msg))
+        msg = ('Failed to match node uuid: %s. \nERROR: %s' % (uuid, o_msg))
         super(MatchFailedError, self).__init__(msg)
+
+
+class SwiftDownloadError(Exception):
+    """Swift failed to download the object with hardware facts.
+
+    Attributes:
+    o_msg -- original message from the exception that occured
+    object_name -- name of the Swift object that failed to download
+    """
+
+    def __init__(self, o_msg, object_name):
+        msg = ('Swift failed to download the object %(object_name)s. '
+               '\nERROR: %(error)s' %
+               {'object_name': object_name, 'error': o_msg})
+        super(SwiftDownloadError, self).__init__(msg)

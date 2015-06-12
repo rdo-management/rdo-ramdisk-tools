@@ -11,16 +11,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import mock
 import os
-import unittest
 
 from hardware import cmdb
 from hardware import state
-import mock
 from oslo_config import cfg
 
 from ahc_tools import exc
 from ahc_tools import match
+from ahc_tools.test import base
 from ahc_tools import utils
 
 CONF = cfg.CONF
@@ -31,9 +31,9 @@ def fake_load(obj, cfg_dir):
     obj._data = [('hw1', '*'), ]
 
 
-class TestBase(unittest.TestCase):
+class MatchBase(base.BaseTest):
     def setUp(self):
-        super(TestBase, self).setUp()
+        super(MatchBase, self).setUp()
         basedir = os.path.dirname(os.path.abspath(__file__))
         CONF.set_override('configdir',
                           os.path.join(basedir, 'edeploy_conf'),
@@ -59,7 +59,7 @@ class TestBase(unittest.TestCase):
 @mock.patch.object(state.State, '_load_specs',
                    lambda o, n: [('network', '$iface', 'serial', '$mac'),
                                  ('network', '$iface', 'ipv4', '$ipv4')])
-class TestMatch(TestBase):
+class TestMatch(MatchBase):
     def setUp(self):
         super(TestMatch, self).setUp()
 
@@ -145,52 +145,54 @@ class TestMatch(TestBase):
                          node_patches[2]['path'])
 
 
+@mock.patch.object(match.cfg, 'ConfigParser', autospec=True)
 @mock.patch.object(match, 'LOG')
 @mock.patch.object(utils, 'get_ironic_client', autospec=True)
 @mock.patch.object(match, '_restore_state', lambda: None)
-class TestMain(TestBase):
+class TestMain(MatchBase):
     def setUp(self):
         super(TestMain, self).setUp()
         self.mock_client = mock.Mock()
         self.mock_client.node.list.return_value = [self.node]
 
     @mock.patch.object(match, '_copy_state', side_effect=Exception('boom'))
-    def test_copy_failed(self, mock_copy, mock_ic, mock_log):
+    def test_copy_failed(self, mock_copy, mock_ic, mock_log, mock_cfg):
         mock_ic.return_value = self.mock_client
-        self.assertRaises(SystemExit, match.main)
+        self.assertRaises(SystemExit, match.main, args=[])
         self.assertTrue(1, mock_log.error.call_count)
 
     @mock.patch.object(match, 'match', autospec=True,
                        side_effect=exc.LoadFailedError('boom', '/etc/edeploy'))
     @mock.patch.object(match, '_copy_state', lambda: None)
-    def test_load_failed(self, mock_match, mock_ic, mock_log):
+    def test_load_failed(self, mock_match, mock_ic, mock_log, mock_cfg):
         mock_ic.return_value = self.mock_client
-        self.assertRaises(SystemExit, match.main)
+        self.assertRaises(SystemExit, match.main, args=[])
         self.assertTrue(1, mock_log.error.call_count)
 
     @mock.patch.object(match, 'get_update_patches', autospec=True)
     @mock.patch.object(match, 'match', autospec=True,
                        side_effect=exc.MatchFailedError('boom', '1234567890'))
     @mock.patch.object(match, '_copy_state', lambda: None)
-    def test_match_failed(self, mock_match, mock_update, mock_ic, mock_log):
+    def test_match_failed(self, mock_match, mock_update, mock_ic, mock_log,
+                          mock_cfg):
         mock_ic.return_value = self.mock_client
-        match.main()
+        match.main(args=[])
         self.assertEqual(2, mock_log.error.call_count)
         self.assertFalse(mock_update.called)
 
     @mock.patch.object(match, 'match', lambda x, y: None)
     @mock.patch.object(match, 'get_update_patches', lambda x, y: None)
     @mock.patch.object(match, '_copy_state', lambda: None)
-    def test_match_success(self, mock_ic, mock_log):
+    def test_match_success(self, mock_ic, mock_log, mock_cfg):
         mock_ic.return_value = self.mock_client
-        match.main()
+        match.main(args=[])
         self.assertFalse(mock_log.error.called)
 
     @mock.patch.object(match, 'match', lambda x, y: None)
     @mock.patch.object(match, 'get_update_patches', lambda x, y: None)
     @mock.patch.object(match, '_copy_state', lambda: None)
-    def test_update_failed(self, mock_ic, mock_log):
+    def test_update_failed(self, mock_ic, mock_log, mock_cfg):
         self.mock_client.node.update.side_effect = Exception('boom')
         mock_ic.return_value = self.mock_client
-        match.main()
+        match.main(args=[])
         self.assertTrue(1, mock_log.error.call_count)
