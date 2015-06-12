@@ -11,11 +11,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
+import json
 import sys
 
 from ironicclient import client
 from ironicclient.exc import AmbiguousAuthSystem
+from oslo_config import cfg
+from six.moves import reload_module
+
+from ahc_tools.common import swift
+
+DEFAULT_CONF_FILE = '/etc/ahc-tools/ahc-tools.conf'
+
+CONF = cfg.CONF
 
 
 def get_facts(node):
@@ -24,34 +32,35 @@ def get_facts(node):
     # where each node is represented by a list of tuples
     # with each tuple representing a fact about the node
     try:
-        facts = [tuple(fact) for fact in node.extra['edeploy_facts']]
+        object_name = node.extra['hardware_swift_object']
     except KeyError:
         err_msg = ("You must run introspection on the nodes before "
                    "running this tool.\n")
         sys.exit(err_msg)
+
+    return _get_swift_facts(object_name)
+
+
+def _get_swift_facts(object_name):
+    reload_module(sys.modules['ahc_tools.common.swift'])
+    swift_api = swift.SwiftAPI()
+    facts_blob = json.loads(swift_api.get_object(object_name))
+    facts = [tuple(fact) for fact in facts_blob]
     return facts
 
 
 def get_ironic_client():
     """Get Ironic client instance."""
-    # TODO(trown): refactor to include error handling, and inputing
-    #              credentials on the command line. Might also want
-    #              getpass for password input.
-    kwargs = {'os_password': os.environ.get('OS_PASSWORD'),
-              'os_username': os.environ.get('OS_USERNAME'),
-              'os_tenant_name': os.environ.get('OS_TENANT_NAME'),
-              'os_auth_url': os.environ.get('OS_AUTH_URL')}
+    kwargs = {'os_password': CONF.ironic.os_password,
+              'os_username': CONF.ironic.os_username,
+              'os_tenant_name': CONF.ironic.os_tenant_name,
+              'os_auth_url': CONF.ironic.os_auth_url}
     try:
         ironic = client.get_client(1, **kwargs)
     except AmbiguousAuthSystem:
-        if kwargs['os_password']:
-            kwargs['os_password'] = "<hidden>"
-        err_msg = ("Some credentials are missing. The needed environment "
-                   "variables are set as follows: "
-                   "OS_PASSWORD=%(os_password)s, "
-                   "OS_USERNAME=%(os_username)s, "
-                   "OS_TENANT_NAME=%(os_tenant_name)s, "
-                   "OS_AUTH_URL=%(os_auth_url)s.\n" % kwargs)
+        err_msg = ("Some credentials are missing from the ironic section of "
+                   "the configuration. The default configuration file is "
+                   "located at " + DEFAULT_CONF_FILE)
         sys.exit(err_msg)
     return ironic
 

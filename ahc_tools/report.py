@@ -12,13 +12,21 @@
 # limitations under the License.
 
 import argparse
+import logging
+import os
 import sys
 
 from hardware.cardiff import cardiff
 from hardware.cardiff import compare_sets
 from hardware.cardiff import utils as cardiff_utils
+from oslo_config import cfg
 
+from ahc_tools import conf  # noqa
 from ahc_tools import utils
+
+CONF = cfg.CONF
+
+LOG = logging.getLogger('ahc_tools.report')
 
 
 def print_report(args, facts):
@@ -70,11 +78,33 @@ def main():
                         action='store', default='uuid',
                         choices=['uuid', 'serial'],
                         help='Unique key to identify the nodes by.')
+    parser.add_argument('--config-file', action='store',
+                        default=utils.DEFAULT_CONF_FILE,
+                        help='File with Ironic and Swift credentials.')
     args = parser.parse_args()
+
+    logging.basicConfig(level=logging.INFO)
+    for third_party in ('urllib3.connectionpool',
+                        'keystoneclient.auth',
+                        'iso8601.iso8601',
+                        'requests.packages.urllib3.connectionpool'):
+        logging.getLogger(third_party).setLevel(logging.WARNING)
+    logging.getLogger('ironicclient.common.http').setLevel(
+        logging.ERROR)
+    logging.getLogger('hardware.state').setLevel(
+        logging.WARNING)
+
+    if os.path.isfile(args.config_file):
+        CONF(['--config-file', args.config_file])
+    else:
+        LOG.error("The configuration file %s does not exist."
+                  % args.config_file)
+        parser.print_help()
+        sys.exit(1)
 
     # If we did not pass any print arguments, print the help and exit
     if not (args.groups or args.categories or args.outliers or args.full):
-        print("\nYou did not specify anything to print.\n")
+        LOG.error("You did not specify anything to print.")
         parser.print_help()
         sys.exit(1)
 

@@ -12,6 +12,7 @@
 # limitations under the License.
 
 import logging
+import os
 import shutil
 import sys
 
@@ -92,7 +93,10 @@ def get_update_patches(node, node_info):
 
 
 def main():
-    CONF(sys.argv[1:])
+    args = sys.argv[1:]
+    if os.path.isfile(utils.DEFAULT_CONF_FILE):
+        args += ['--config-file', utils.DEFAULT_CONF_FILE]
+    CONF(args)
     debug = CONF.match.debug
     logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
     for third_party in ('urllib3.connectionpool',
