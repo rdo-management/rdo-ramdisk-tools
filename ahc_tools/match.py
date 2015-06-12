@@ -91,19 +91,10 @@ def get_update_patches(node, node_info):
     return patches
 
 
-def main():
-    CONF(sys.argv[1:])
+def main(args=sys.argv[1:]):
+    CONF(args=args, default_config_files=utils.DEFAULT_CONF_FILES)
     debug = CONF.match.debug
-    logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
-    for third_party in ('urllib3.connectionpool',
-                        'keystoneclient.auth',
-                        'iso8601.iso8601',
-                        'requests.packages.urllib3.connectionpool'):
-        logging.getLogger(third_party).setLevel(logging.WARNING)
-    logging.getLogger('ironicclient.common.http').setLevel(
-        logging.INFO if debug else logging.ERROR)
-    logging.getLogger('hardware.state').setLevel(
-        logging.INFO if debug else logging.WARNING)
+    utils.setup_logging(debug)
 
     ironic_client = utils.get_ironic_client()
     nodes = ironic_client.node.list(detail=True)

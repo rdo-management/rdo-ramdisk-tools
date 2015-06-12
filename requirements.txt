@@ -1,3 +1,4 @@
 hardware>=0.14
 python-ironicclient>=0.5.0
+python-swiftclient>=2.2.0
 oslo.config>=1.11.0
