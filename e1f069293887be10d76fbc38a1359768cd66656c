@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "facab960_cd070ac9",
+        "filename": "ahc_tools/conf.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-06-18T13:22:35Z",
+      "side": 1,
+      "message": "Whoops, nice catch!",
+      "parentUuid": "facab960_2d7236ad",
+      "range": {
+        "startLine": 45,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "e1f069293887be10d76fbc38a1359768cd66656c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_4d43fa41",
         "filename": "ahc_tools/utils.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-06-18T12:55:46Z",
       "side": 1,
       "message": "I don\u0027t think this should go to production",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "e1f069293887be10d76fbc38a1359768cd66656c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_6df8bec3",
+        "filename": "ahc_tools/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003529
+      },
+      "writtenOn": "2015-06-18T13:22:35Z",
+      "side": 1,
+      "message": "ya, I suppose this is pretty gross. I opted to pass all of the CONF values when creating the SwiftApi object on the line below.\n\nI updated the tests to do that too.",
+      "parentUuid": "facab960_4d43fa41",
       "range": {
         "startLine": 46,
         "startChar": 4,
