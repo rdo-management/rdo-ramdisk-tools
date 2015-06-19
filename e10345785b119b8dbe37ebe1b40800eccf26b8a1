@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_b4f76a58",
+        "filename": "tox.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-06-19T15:01:12Z",
+      "side": 0,
+      "message": "don\u0027t delete this if you want to join mainstream openstack",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "e10345785b119b8dbe37ebe1b40800eccf26b8a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
