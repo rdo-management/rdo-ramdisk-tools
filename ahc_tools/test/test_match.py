@@ -45,7 +45,7 @@ class MatchBase(base.BaseTest):
                               properties={'cpu_arch': 'i386', 'local_gb': 40},
                               uuid=self.uuid,
                               power_state='power on',
-                              provision_state='inspecting',
+                              provision_state='available',
                               extra={'on_discovery': 'true'},
                               instance_uuid=None,
                               maintenance=False)

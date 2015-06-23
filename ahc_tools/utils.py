@@ -22,6 +22,7 @@ from oslo_config import cfg
 from ahc_tools.common import swift
 
 DEFAULT_CONF_FILES = ['/etc/ahc-tools/ahc-tools.conf']
+MATCHABLE_STATES = ['manageable', 'available']
 
 CONF = cfg.CONF
 
@@ -66,6 +67,15 @@ def get_ironic_client():
                    "searched: (%s)." % ', '.join(CONF.config_file))
         sys.exit(err_msg)
     return ironic
+
+
+def get_ironic_nodes(ironic_client, states=MATCHABLE_STATES):
+    """Get the Ironic nodes that have provision_state in states."""
+    # FIXME (trown) Currently the Ironic API does not have a filter for
+    # provision_state. Once we have that, we should use it instead of iterating
+    # over all of the nodes.
+    all_nodes = ironic_client.node.list(detail=True, limit=0)
+    return [node for node in all_nodes if node.provision_state in states]
 
 
 def capabilities_to_dict(caps):

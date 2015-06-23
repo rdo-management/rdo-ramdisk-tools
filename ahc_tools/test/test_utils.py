@@ -53,3 +53,17 @@ class TestGetIronicClient(base.BaseTest):
         self.assertRaisesRegexp(SystemExit, err_msg,
                                 utils.get_ironic_client)
         self.assertTrue(ic_mock.called)
+
+
+class TestGetIronicNodes(base.BaseTest):
+    def test_only_matchable_nodes_returned(self):
+        available_node = mock.Mock(provision_state='available')
+        manageable_node = mock.Mock(provision_state='manageable')
+        active_node = mock.Mock(provision_state='active')
+        ironic_client = mock.Mock()
+        ironic_client.node.list.return_value = [available_node,
+                                                manageable_node,
+                                                active_node]
+        expected = [available_node, manageable_node]
+        returned_nodes = utils.get_ironic_nodes(ironic_client)
+        self.assertEqual(expected, returned_nodes)

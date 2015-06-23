@@ -97,7 +97,7 @@ def main(args=sys.argv[1:]):
     utils.setup_logging(debug)
 
     ironic_client = utils.get_ironic_client()
-    nodes = ironic_client.node.list(detail=True)
+    nodes = utils.get_ironic_nodes(ironic_client)
     patches = {}
 
     try:
