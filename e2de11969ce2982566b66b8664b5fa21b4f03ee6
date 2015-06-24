@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_15847f5c",
+        "filename": "ahc_tools/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003460
+      },
+      "writtenOn": "2015-06-24T14:00:27Z",
+      "side": 1,
+      "message": "In the future (near future, I hope), we should drop \"available\" from this list. It sucks that our tooling depends on it being the default.",
+      "range": {
+        "startLine": 25,
+        "startChar": 34,
+        "endLine": 25,
+        "endChar": 45
+      },
+      "revId": "e2de11969ce2982566b66b8664b5fa21b4f03ee6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
