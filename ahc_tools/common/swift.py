@@ -78,12 +78,14 @@ class SwiftAPI(object):
         :param auth_url: the url for authentication
         :param auth_version: the version of api to use for authentication
         """
+        os_options = {'endpoint_type': 'internal'}
         params = {'retries': CONF.swift.max_retries,
                   'user': user,
                   'tenant_name': tenant_name,
                   'key': key,
                   'authurl': auth_url,
-                  'auth_version': auth_version}
+                  'auth_version': auth_version,
+                  'os_options': os_options}
 
         self.connection = swift_client.Connection(**params)
 

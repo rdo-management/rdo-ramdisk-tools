@@ -58,7 +58,8 @@ def get_ironic_client():
     kwargs = {'os_password': CONF.ironic.os_password,
               'os_username': CONF.ironic.os_username,
               'os_tenant_name': CONF.ironic.os_tenant_name,
-              'os_auth_url': CONF.ironic.os_auth_url}
+              'os_auth_url': CONF.ironic.os_auth_url,
+              'os_endpoint_type': 'internal'}
     try:
         ironic = client.get_client(1, **kwargs)
     except AmbiguousAuthSystem:
